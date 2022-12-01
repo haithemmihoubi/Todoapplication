@@ -1,21 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const {
-  loginSchema,
-  signupSchema,
-} = require('../validations/user');
-const jwt = require('jsonwebtoken');
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+const { loginSchema, signupSchema } = require("../validations/user");
+const jwt = require("jsonwebtoken");
 
-router.post('/register', async (req, res) => {
+router.post("/register", async (req, res) => {
   // Validate request Data
   const { error } = await signupSchema.validate(req.body);
 
   if (error) {
-    res
-      .status(400)
-      .json({ message: error.details[0].message });
+    res.status(400).json({ message: error.details[0].message });
     return;
   }
 
@@ -25,12 +20,12 @@ router.post('/register', async (req, res) => {
   const user = await User.findOne({ email });
   if (user) {
     res.status(400).json({
-      message: 'Email is already exists in the Database',
+      message: "Email is already exists in the Database",
     });
     return;
   }
 
-  //Hash the password
+  // Hash the password
   const sault = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, sault);
 
@@ -59,19 +54,17 @@ router.post('/register', async (req, res) => {
     });
   } catch (err) {
     res.json({
-      message: 'Something went wrong, please try again',
+      message: "Something went wrong, please try again",
     });
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   // Validate request Data
   const { error } = await loginSchema.validate(req.body);
 
   if (error) {
-    res
-      .status(400)
-      .json({ message: 'Please Fill a correct Password' });
+    res.status(400).json({ message: "Please Fill a correct Password" });
     return;
   }
 
@@ -81,21 +74,17 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       res.status(400).json({
-        message:
-          'We could not find the email in the database',
+        message: "We could not find the email in the database",
       });
       return;
     }
 
     // Check if the password is correct
-    const isCorrectPassword = await bcrypt.compare(
-      password,
-      user.password
-    );
+    const isCorrectPassword = await bcrypt.compare(password, user.password);
     if (!isCorrectPassword) {
       res.status(401).json({
         message:
-          'The email and password combination is not correct, please fill a correct email and password',
+          "The email and password combination is not correct, please fill a correct email and password",
       });
       return;
     }
@@ -116,7 +105,7 @@ router.post('/login', async (req, res) => {
     });
   } catch (err) {
     res.json({
-      message: 'Something went wrong, please try again',
+      message: "Something went wrong, please try again",
     });
   }
 });

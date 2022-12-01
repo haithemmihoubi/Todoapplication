@@ -1,18 +1,10 @@
-import styled from 'styled-components';
-import React from 'react';
+import styled from "styled-components";
+import React from "react";
 
-function Pagination({
-  postsPerPage,
-  totalPosts,
-  paginate,
-}) {
-  let pageNumbers = [];
+function Pagination({ postsPerPage, totalPosts, paginate }) {
+  const pageNumbers = [];
 
-  for (
-    let i = 1;
-    i <= Math.ceil(totalPosts / postsPerPage);
-    i++
-  ) {
+  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
   }
 
@@ -22,9 +14,7 @@ function Pagination({
     <PaginationContainer>
       {pageNumbers.map((number) => (
         <PaginationBlock key={number}>
-          <a
-            data-test-id="pagination-link"
-            onClick={() => paginate(number)}>
+          <a data-test-id="pagination-link" onClick={() => paginate(number)}>
             {number}
           </a>
         </PaginationBlock>

@@ -1,16 +1,15 @@
-import styled from 'styled-components';
-import { ThemeProvider } from '@material-ui/styles';
-import theme from '../Theme/theme';
-import { Container, IconButton } from '@material-ui/core';
+import styled from "styled-components";
+import { ThemeProvider } from "@material-ui/styles";
+import theme from "../Theme/theme";
+import { Container, IconButton } from "@material-ui/core";
 
-import AddIcon from '@material-ui/icons/Add';
-import { useHistory } from 'react-router-dom';
-import { useState, useContext } from 'react';
-import { useEffect } from 'react';
-import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
-import TodoItem from '../components/Todo/TodoItem';
-import Pagination from '../components/Pagination';
+import AddIcon from "@material-ui/icons/Add";
+import { useHistory } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
+import TodoItem from "../components/Todo/TodoItem";
+import Pagination from "../components/Pagination";
 
 const LoginContainer = styled.div`
   height: 100vh;
@@ -56,29 +55,24 @@ const getWelcome = () => {
   const currentHour = new Date().getHours();
 
   if (currentHour >= 0 && currentHour <= 5) {
-    return 'Time to sleep';
+    return "Time to sleep";
   }
   if (currentHour > 5 && currentHour <= 12) {
-    return 'Good morning';
+    return "Good morning";
   }
 
   if (currentHour > 12 && currentHour <= 17) {
-    return 'Good afternoon';
+    return "Good afternoon";
   }
 
   if (currentHour > 17) {
-    return 'Good Evening';
+    return "Good Evening";
   }
 };
 
 const getName = (name) => {
-  if (
-    !name ||
-    name.length < 2 ||
-    name.includes('@') ||
-    name.includes('.')
-  ) {
-    return 'user';
+  if (!name || name.length < 2 || name.includes("@") || name.includes(".")) {
+    return "user";
   } else {
     return name;
   }
@@ -93,8 +87,8 @@ function TodoPage() {
 
   useEffect(() => {
     axios({
-      method: 'GET',
-      url: `http://localhost:8080/api/v1/tasks`,
+      method: "GET",
+      url: "http://localhost:8080/api/v1/tasks",
       headers: {
         Authorization: `Bearer ${user.access_token}`,
       },
@@ -110,25 +104,20 @@ function TodoPage() {
 
   const handleDelete = (id) => {
     axios({
-      method: 'Delete',
+      method: "Delete",
       url: `http://localhost:8080/api/v1/tasks/${id}`,
       headers: {
         Authorization: `Bearer ${user.access_token}`,
       },
     }).then((res) => {
-      const newTodos = todos.filter(
-        (todo) => todo._id !== id
-      );
+      const newTodos = todos.filter((todo) => todo._id !== id);
       setTodos(newTodos);
     });
   };
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentTodos = todos.slice(
-    indexOfFirstPost,
-    indexOfLastPost
-  );
+  const currentTodos = todos.slice(indexOfFirstPost, indexOfLastPost);
 
   const paginate = (number) => setCurrentPage(number);
 
@@ -137,18 +126,15 @@ function TodoPage() {
       <Container maxWidth="md">
         <LoginContainer>
           <LoginFormContainer>
-            <FormHeader data-testid="welcome">{`${getWelcome()} ${getName(
-              user.firstName
-            )}`}</FormHeader>
+            <FormHeader data-testid="welcome">
+              {`${getWelcome()} ${getName(user.firstName)}`}
+            </FormHeader>
             <CreateNewTodoContainer>
               <IconButton
                 aria-label="delete"
-                onClick={() => history.push('/todo/new')}>
-                <AddIcon
-                  color="action"
-                  fontSize="small"
-                  data-testid="add"
-                />
+                onClick={() => history.push("/todo/new")}
+              >
+                <AddIcon color="action" fontSize="small" data-testid="add" />
               </IconButton>
               <FormSubHeader>Add a new Todo</FormSubHeader>
             </CreateNewTodoContainer>
@@ -161,15 +147,11 @@ function TodoPage() {
               />
             ))}
             {!currentTodos.length && (
-              <h4 data-testid="no-todos">
-                No Available Todos
-              </h4>
+              <h4 data-testid="no-todos">No Available Todos</h4>
             )}
 
             {currentTodos.length === 5 && (
-              <h4 data-testid="no-todos">
-                No Available Todos
-              </h4>
+              <h4 data-testid="no-todos">No Available Todos</h4>
             )}
 
             {todos.length > postsPerPage && (

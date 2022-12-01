@@ -1,27 +1,24 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1];
 
-  if (!token)
+  if (!token) {
     return res.status(401).json({
-      message:
-        'Unauthorized, please insert a correct token',
+      message: "Unauthorized, please insert a correct token",
     });
+  }
 
-  jwt.verify(
-    token,
-    process.env.TOKEN_SECRET,
-    (err, user) => {
-      if (err)
-        return res.status(403).json({
-          message: 'Forbidden to access this resource',
-        });
-      req.user = user;
-      next();
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({
+        message: "Forbidden to access this resource",
+      });
     }
-  );
+    req.user = user;
+    next();
+  });
 }
 
 module.exports = authenticateToken;
