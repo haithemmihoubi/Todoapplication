@@ -1,87 +1,86 @@
-import styled from 'styled-components';
-import { ThemeProvider } from '@material-ui/styles';
-import theme from '../Theme/theme';
+import styled from "styled-components";
+import { ThemeProvider } from "@material-ui/styles";
+import theme from "../Theme/theme";
 import {
   Container,
   TextField,
   Button,
   Divider,
   CircularProgress,
-} from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
-import { useState, useContext } from 'react';
-import axios from 'axios';
-import { AuthContext } from '../context/AuthContext';
-import { useHistory } from 'react-router-dom';
+} from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import { useState, useContext } from "react";
+import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
+import { useHistory } from "react-router-dom";
 
 function SignupPage() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] =
-    useState('');
-  const [firstNameError, setFirstNameError] = useState('');
-  const [lastNameError, setLastNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] =
-    useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [submitError, setSubmitError] = useState(false);
-  const [submitErrorMessage, setSubmitErrorMessage] =
-    useState('Something Went Wrong please try again');
+  const [submitErrorMessage, setSubmitErrorMessage] = useState(
+    "Something Went Wrong please try again"
+  );
   const [loading, setLoading] = useState(false);
   const { setUser } = useContext(AuthContext);
   const history = useHistory();
 
   const handleSubmit = () => {
-    setPassword('');
-    setConfirmPassword('');
-    setFirstNameError('');
-    setLastNameError('');
-    setEmailError('');
-    setPasswordError('');
-    setConfirmPasswordError('');
+    setPassword("");
+    setConfirmPassword("");
+    setFirstNameError("");
+    setLastNameError("");
+    setEmailError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
     setSubmitError(false);
 
     // Make Sure that the first Name is filled and more that 3 Characters
     if (!firstName || firstName.length <= 3) {
       setFirstNameError(
-        'First Name is required, and it should be more than 3 characters'
+        "First Name is required, and it should be more than 3 characters"
       );
       return;
     }
 
     if (!lastName || lastName.length < 3) {
       setLastNameError(
-        'Last Name is required, and it should be more than 3 characters'
+        "Last Name is required, and it should be more than 3 characters"
       );
       return;
     }
 
     if (!emailReg.test(email)) {
-      setEmailError('Please Insert a correct Email format');
+      setEmailError("Please Insert a correct Email format");
       return;
     }
 
     if (!passwordReg.test(password)) {
       setPasswordError(
-        'Password must be Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+        "Password must be Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
       );
       return;
     }
 
     if (password !== confirmPassword) {
       setConfirmPasswordError(
-        'Second password does not match the first Password'
+        "Second password does not match the first Password"
       );
       return;
     }
 
     setLoading(true);
     axios({
-      method: 'POST',
-      url: 'http://localhost:8080/api/v1/users/register',
+      method: "POST",
+      url: "http://localhost:8080/api/v1/users/register",
       data: {
         email,
         password,
@@ -92,12 +91,9 @@ function SignupPage() {
       .then((res) => {
         if (res.status === 201) {
           setUser(res.data);
-          localStorage.setItem(
-            'user',
-            JSON.stringify(res.data)
-          );
+          localStorage.setItem("user", JSON.stringify(res.data));
           setLoading(false);
-          history.push('/todo');
+          history.push("/todo");
         }
       })
       .catch((err) => {
@@ -127,12 +123,10 @@ function SignupPage() {
               type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              error={firstNameError ? true : false}
-              helperText={
-                firstNameError ? firstNameError : null
-              }
+              error={!!firstNameError}
+              helperText={firstNameError || null}
               inputProps={{
-                'data-testid': 'first-name',
+                "data-testid": "first-name",
               }}
             />
             <FormInput
@@ -142,12 +136,10 @@ function SignupPage() {
               type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              error={lastNameError ? true : false}
-              helperText={
-                lastNameError ? lastNameError : null
-              }
+              error={!!lastNameError}
+              helperText={lastNameError || null}
               inputProps={{
-                'data-testid': 'last-name',
+                "data-testid": "last-name",
               }}
             />
             <FormInput
@@ -157,10 +149,10 @@ function SignupPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              error={emailError ? true : false}
-              helperText={emailError ? emailError : null}
+              error={!!emailError}
+              helperText={emailError || null}
               inputProps={{
-                'data-testid': 'email',
+                "data-testid": "email",
               }}
             />
             <FormInput
@@ -170,12 +162,10 @@ function SignupPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              error={passwordError ? true : false}
-              helperText={
-                passwordError ? passwordError : null
-              }
+              error={!!passwordError}
+              helperText={passwordError || null}
               inputProps={{
-                'data-testid': 'password',
+                "data-testid": "password",
               }}
             />
             <FormInput
@@ -184,17 +174,11 @@ function SignupPage() {
               variant="outlined"
               type="password"
               value={confirmPassword}
-              onChange={(e) =>
-                setConfirmPassword(e.target.value)
-              }
-              error={confirmPasswordError ? true : false}
-              helperText={
-                confirmPasswordError
-                  ? confirmPasswordError
-                  : null
-              }
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              error={!!confirmPasswordError}
+              helperText={confirmPasswordError || null}
               inputProps={{
-                'data-testid': 'confirm-password',
+                "data-testid": "confirm-password",
               }}
             />
             {loading ? (
@@ -204,7 +188,8 @@ function SignupPage() {
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
-                data-testid="submit">
+                data-testid="submit"
+              >
                 Signup
               </Button>
             )}
@@ -215,10 +200,11 @@ function SignupPage() {
               </Alert>
             ) : null}
 
-            <Divider light={true} />
+            <Divider light />
             <FormFooter
-              onClick={() => history.push('/login')}
-              data-testid="go-login">
+              onClick={() => history.push("/login")}
+              data-testid="go-login"
+            >
               Do you have an Account?
             </FormFooter>
           </LoginFormContainer>

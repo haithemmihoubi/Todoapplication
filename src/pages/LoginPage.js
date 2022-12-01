@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { ThemeProvider } from '@material-ui/styles';
-import theme from '../Theme/theme';
+import styled from "styled-components";
+import { ThemeProvider } from "@material-ui/styles";
+import theme from "../Theme/theme";
 
 import {
   Container,
@@ -8,13 +8,13 @@ import {
   Button,
   Divider,
   CircularProgress,
-} from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
-import { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+} from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
-import axios from 'axios';
+import axios from "axios";
 
 const LoginContainer = styled.div`
   height: 100vh;
@@ -62,29 +62,30 @@ const FormInput = styled(TextField)`
 `;
 
 function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [submitError, setSubmitError] = useState(false);
-  const [submitErrorMessage, setSubmitErrorMessage] =
-    useState('Something Went Wrong please try again');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [submitErrorMessage, setSubmitErrorMessage] = useState(
+    "Something Went Wrong please try again"
+  );
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { setUser } = useContext(AuthContext);
 
   const handleSubmit = () => {
-    setPassword('');
+    setPassword("");
     setSubmitError(false);
 
     if (!emailReg.test(email)) {
-      setEmailError('Please Insert a correct Email format');
+      setEmailError("Please Insert a correct Email format");
       return;
     }
 
     if (!passwordReg.test(password)) {
       setPasswordError(
-        'Password must be Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+        "Password must be Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
       );
       return;
     }
@@ -92,8 +93,8 @@ function LoginPage() {
     // Make Sure that the first Name is filled and more that 3 Characters.
     setLoading(true);
     axios({
-      method: 'POST',
-      url: `http://localhost:8080/api/v1/users/login`,
+      method: "POST",
+      url: "http://localhost:8080/api/v1/users/login",
       data: {
         email,
         password,
@@ -102,11 +103,8 @@ function LoginPage() {
       .then((res) => {
         setUser(res.data);
         setLoading(false);
-        localStorage.setItem(
-          'user',
-          JSON.stringify(res.data)
-        );
-        history.push('/todo');
+        localStorage.setItem("user", JSON.stringify(res.data));
+        history.push("/todo");
         if (res.status !== 200) {
           setSubmitErrorMessage(res.data);
           setSubmitError(true);
@@ -138,11 +136,11 @@ function LoginPage() {
               type="email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
-              error={emailError ? true : false}
-              helperText={emailError ? emailError : null}
+              error={!!emailError}
+              helperText={emailError || null}
               id="login"
               inputProps={{
-                'data-testid': 'email',
+                "data-testid": "email",
               }}
             />
             <FormInput
@@ -152,12 +150,10 @@ function LoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              error={passwordError ? true : false}
-              helperText={
-                passwordError ? passwordError : null
-              }
+              error={!!passwordError}
+              helperText={passwordError || null}
               inputProps={{
-                'data-testid': 'password',
+                "data-testid": "password",
               }}
             />
             {loading ? (
@@ -167,21 +163,21 @@ function LoginPage() {
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
-                data-testid="submit">
+                data-testid="submit"
+              >
                 Login
               </Button>
             )}
             {submitError ? (
-              <Alert
-                severity="error"
-                data-testid="error-alert">
+              <Alert severity="error" data-testid="error-alert">
                 {submitErrorMessage}
               </Alert>
             ) : null}
-            <Divider light={true} />
+            <Divider light />
             <FormFooter
               data-testid="signup"
-              onClick={() => history.push('/signup')}>
+              onClick={() => history.push("/signup")}
+            >
               Create a new Account?
             </FormFooter>
           </LoginFormContainer>

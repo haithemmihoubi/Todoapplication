@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import logo from '../../images/logo.png';
-import { Button, Container } from '@material-ui/core';
-import { useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import logo from "../../images/logo.png";
+import { Button, Container } from "@material-ui/core";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const NavContainer = styled.div`
   display: flex;
@@ -33,20 +33,25 @@ const Nav = () => {
   const { user, setUser } = useContext(AuthContext);
 
   const handleLogout = () => {
-    setUser('');
+    setUser("");
     localStorage.clear();
   };
   return (
     <Container>
       <NavContainer>
-        <Logo  />
+        <Logo />
         <NavLinksContainer>
           <NavLink to="/">Home</NavLink>
           {user ? null : <NavLink to="/login">Login</NavLink>}
           {user ? null : <NavLink to="/signup">Signup</NavLink>}
           {user ? <NavLink to="/todo">Todo</NavLink> : null}
           {user ? (
-            <Button variant="contained" color="primary" onClick={handleLogout} style={{ width: '100px' }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleLogout}
+              style={{ width: "100px" }}
+            >
               Logout
             </Button>
           ) : null}

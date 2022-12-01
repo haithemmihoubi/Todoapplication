@@ -1,10 +1,10 @@
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { useContext } from 'react';
-import LoginPage from '../pages/LoginPage';
-import SignupPage from '../pages/SignupPage';
-import TodoPage from '../pages/TodoPage';
-import NewTodoPage from '../pages/NewTodo';
-import { AuthContext } from '../context/AuthContext';
+import { Switch, Route, Redirect } from "react-router-dom";
+import { useContext } from "react";
+import LoginPage from "../pages/LoginPage";
+import SignupPage from "../pages/SignupPage";
+import TodoPage from "../pages/TodoPage";
+import NewTodoPage from "../pages/NewTodo";
+import { AuthContext } from "../context/AuthContext";
 
 const AppRouter = () => {
   const { user } = useContext(AuthContext);

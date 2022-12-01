@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,400;0,500;1,600&family=Inconsolata:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,400;0,500;1,600&family=Inconsolata:wght@400;700&display=swap");
 
 :root {
   --main-color: #171d25;
@@ -6,8 +6,8 @@
   --third-color: #81808b;
   --forth-color: #d3822f;
   --main-font-color: #f0ede5;
-  --main-font-family: 'Inconsolata', monospac;
-  --secondary-font-family: 'Exo', sans-serif;
+  --main-font-family: "Inconsolata", monospac;
+  --secondary-font-family: "Exo", sans-serif;
 }
 
 * {
