@@ -75,8 +75,9 @@ function NewTodo() {
     setNewTodo('');
     setSubmitError(false);
 
-    // Make Sure that the first Name is filled and more that 3 Characters
+    // Make Sure that the first Name is filled and more that contains  3 Characters
     if (!newTodo || newTodo.length < 3) {
+      // longeur
       setNewTodoError(
         'New todo is required, and it should be more than 3 characters'
       );
