@@ -1,18 +1,18 @@
-import styled from 'styled-components';
-import { ThemeProvider } from '@material-ui/styles';
-import theme from '../Theme/theme';
+import styled from "styled-components";
+import { ThemeProvider } from "@material-ui/styles";
+import theme from "../Theme/theme";
 import {
   Container,
   TextField,
   Button,
   Divider,
   CircularProgress,
-} from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
-import { useHistory } from 'react-router-dom';
-import { useState, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
+} from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import { useHistory } from "react-router-dom";
+import { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
 
 const LoginContainer = styled.div`
   height: 100vh;
@@ -61,33 +61,34 @@ const FormInput = styled(TextField)`
 
 function NewTodo() {
   const history = useHistory();
-  const [newTodo, setNewTodo] = useState('');
-  const [newTodoError, setNewTodoError] = useState('');
+  const [newTodo, setNewTodo] = useState("");
+  const [newTodoError, setNewTodoError] = useState("");
   const [submitError, setSubmitError] = useState(false);
-  const [submitErrorMessage, setSubmitErrorMessage] =
-    useState('Something Went Wrong please try again');
+  const [submitErrorMessage, setSubmitErrorMessage] = useState(
+    "Something Went Wrong please try again"
+  );
   const [loading, setLoading] = useState(false);
 
   const { user } = useContext(AuthContext);
 
   const handleSubmit = () => {
-    setNewTodoError('');
-    setNewTodo('');
+    setNewTodoError("");
+    setNewTodo("");
     setSubmitError(false);
 
     // Make Sure that the first Name is filled and more that contains  3 Characters
     if (!newTodo || newTodo.length < 3) {
       // longeur
       setNewTodoError(
-        'New todo is required, and it should be more than 3 characters'
+        "New todo is required, and it should be more than 3 characters"
       );
       return;
     }
 
     setLoading(true);
     axios({
-      method: 'POST',
-      url: `http://localhost:8080/api/v1/tasks`,
+      method: "POST",
+      url: "http://localhost:8080/api/v1/tasks",
       headers: {
         Authorization: `Bearer ${user.access_token}`,
       },
@@ -98,7 +99,7 @@ function NewTodo() {
       },
     })
       .then((res) => {
-        history.push('/todo');
+        history.push("/todo");
       })
       .catch((err) => {
         if (err.response) {
@@ -114,9 +115,7 @@ function NewTodo() {
       <Container maxWidth="md">
         <LoginContainer>
           <LoginFormContainer>
-            <FormHeader data-testid="header">
-              Create a new Todo
-            </FormHeader>
+            <FormHeader data-testid="header">Create a new Todo</FormHeader>
             <FormSubHeader data-testid="sub-header">
               Ready to mark some Todos as completed?
             </FormSubHeader>
@@ -127,12 +126,10 @@ function NewTodo() {
               type="text"
               value={newTodo}
               onChange={(e) => setNewTodo(e.target.value)}
-              error={newTodoError ? true : false}
-              helperText={
-                newTodoError ? newTodoError : null
-              }
+              error={!!newTodoError}
+              helperText={newTodoError || null}
               inputProps={{
-                'data-testid': 'new-todo',
+                "data-testid": "new-todo",
               }}
             />
             {loading ? (
@@ -142,23 +139,23 @@ function NewTodo() {
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
-                data-testid="submit-newTask">
+                data-testid="submit-newTask"
+              >
                 Create Todo
               </Button>
             )}
 
             {submitError ? (
-              <Alert
-                data-testid="error-message"
-                severity="error">
+              <Alert data-testid="error-message" severity="error">
                 {submitErrorMessage}
               </Alert>
             ) : null}
 
-            <Divider light={true} />
+            <Divider light />
             <FormFooter
-              onClick={() => history.push('/todo')}
-              data-testid="back">
+              onClick={() => history.push("/todo")}
+              data-testid="back"
+            >
               Go back to your Todos
             </FormFooter>
           </LoginFormContainer>
